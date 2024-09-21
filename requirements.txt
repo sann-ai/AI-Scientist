@@ -15,3 +15,7 @@ datasets
 tiktoken
 wandb
 tqdm
+# Quantum
+qiskit
+qiskit-aer
+

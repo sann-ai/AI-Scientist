@@ -1,0 +1,101 @@
+[
+    {
+        "Name": "threshold_analysis_rotated_surface_codes",
+        "Title": "Threshold Analysis of Rotated Surface Codes under Realistic Noise Models",
+        "Experiment": "Perform numerical simulations to determine the error correction thresholds of rotated surface codes under various realistic noise models, including depolarizing noise and biased noise. Compare these thresholds with those of standard surface codes to highlight the advantages of using rotated versions in practical quantum computing scenarios.",
+        "Interestingness": 9,
+        "Feasibility": 8,
+        "Novelty": 8,
+        "novel": true
+    },
+    {
+        "Name": "efficient_decoding_algorithms",
+        "Title": "Efficient Decoding Algorithms for Rotated Surface Codes",
+        "Experiment": "Develop and implement new decoding algorithms tailored for rotated surface codes that improve upon the computational efficiency and accuracy of existing methods like the minimum-weight perfect matching algorithm. Evaluate the performance of these algorithms through simulations and benchmark them against current standards.",
+        "Interestingness": 9,
+        "Feasibility": 7,
+        "Novelty": 9,
+        "novel": true
+    },
+    {
+        "Name": "fault_tolerant_gates_rotated_codes",
+        "Title": "Implementing Fault-Tolerant Gates in Rotated Surface Codes",
+        "Experiment": "Design and simulate protocols for implementing fault-tolerant logical gates within rotated surface codes, such as CNOT, Hadamard, and Phase gates. Analyze the resource overhead and error rates associated with these implementations compared to those in standard surface codes.",
+        "Interestingness": 8,
+        "Feasibility": 7,
+        "Novelty": 8,
+        "novel": true
+    },
+    {
+        "Name": "hardware_mapping_rotated_codes",
+        "Title": "Mapping Rotated Surface Codes onto Superconducting Qubit Architectures",
+        "Experiment": "Develop a mapping scheme for implementing rotated surface codes on superconducting qubit hardware with limited connectivity. Conduct experiments to demonstrate the practical viability of this mapping and measure the resulting error correction performance.",
+        "Interestingness": 9,
+        "Feasibility": 7,
+        "Novelty": 7,
+        "novel": true
+    },
+    {
+        "Name": "rotated_vs_standard_surface_codes",
+        "Title": "Comparative Study of Rotated and Standard Surface Codes in Quantum Error Correction",
+        "Experiment": "Conduct a comprehensive comparison between rotated and standard surface codes in terms of error thresholds, resource efficiency, and implementation complexity. Use both analytical methods and simulations to highlight the scenarios where rotated surface codes offer significant advantages.",
+        "Interestingness": 8,
+        "Feasibility": 8,
+        "Novelty": 7,
+        "novel": true
+    },
+    {
+        "Name": "scalable_rotated_surface_codes",
+        "Title": "Scalability of Rotated Surface Codes for Large-Scale Quantum Computing",
+        "Experiment": "Investigate the scalability of rotated surface codes by analyzing their performance and resource requirements as the code distance increases. Use simulations to study how factors like qubit coherence times and gate fidelities impact the feasibility of scaling up.",
+        "Interestingness": 9,
+        "Feasibility": 7,
+        "Novelty": 8,
+        "novel": true
+    },
+    {
+        "Name": "rotated_codes_noise_bias",
+        "Title": "Optimizing Rotated Surface Codes for Systems with Noise Bias",
+        "Experiment": "Adapt rotated surface codes to exploit noise biases commonly found in certain quantum hardware (e.g., phase-flip over bit-flip errors). Simulate these adapted codes to demonstrate enhanced error correction performance compared to unbiased implementations.",
+        "Interestingness": 8,
+        "Feasibility": 8,
+        "Novelty": 9,
+        "novel": true
+    },
+    {
+        "Name": "experimental_realization_rotated_codes",
+        "Title": "Experimental Realization of Rotated Surface Codes on Trapped Ion Systems",
+        "Experiment": "Implement rotated surface codes on a trapped ion quantum computer. Perform quantum error correction cycles and measure the logical qubit fidelity over time. Analyze the results to assess the practical benefits and challenges of using rotated surface codes in experimental settings.",
+        "Interestingness": 9,
+        "Feasibility": 6,
+        "Novelty": 8,
+        "novel": true
+    },
+    {
+        "Name": "rotated_codes_measurement_errors",
+        "Title": "Mitigating Measurement Errors in Rotated Surface Codes",
+        "Experiment": "Develop techniques to reduce the impact of measurement errors in rotated surface codes, such as implementing redundant measurements or error mitigation strategies. Use simulations to evaluate the effectiveness of these techniques in improving overall error correction performance.",
+        "Interestingness": 8,
+        "Feasibility": 7,
+        "Novelty": 8,
+        "novel": true
+    },
+    {
+        "Name": "machine_learning_decoders",
+        "Title": "Machine Learning Enhanced Decoders for Rotated Surface Codes",
+        "Experiment": "Apply machine learning methods to develop decoders for rotated surface codes that can handle complex noise environments more effectively than traditional decoders. Train neural networks on simulated syndrome data and test their performance against standard decoding algorithms.",
+        "Interestingness": 9,
+        "Feasibility": 7,
+        "Novelty": 9,
+        "novel": true
+    },
+    {
+        "Name": "topological_defects_rotated_codes",
+        "Title": "Using Topological Defects in Rotated Surface Codes for Logical Gate Implementation",
+        "Experiment": "Explore the use of topological defects, such as twists and holes, in rotated surface codes to implement logical gates and qubit braiding. Simulate these configurations to demonstrate their potential for fault-tolerant quantum computation with reduced overhead.",
+        "Interestingness": 8,
+        "Feasibility": 6,
+        "Novelty": 9,
+        "novel": true
+    }
+]

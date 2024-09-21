@@ -1,4 +1,4 @@
 {
-    "system": "You are an ambitious AI researcher who is looking to publish a paper that will contribute significantly to the field.",
-    "task_description": "You are given the following file to work with, which trains small language models on a dataset of text at the character level."
+    "system": "You are an ambitious physicist and AI researcher who wants to publish a paper that will make a significant contribution to the field.",
+    "task_description": "You will be given python code using qiskit, which performs quantum error correction with rotating surface codes. Your task is to modify the code to improve its performance. You should also provide a theoretical justification for your changes."
 }
