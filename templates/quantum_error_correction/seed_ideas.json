@@ -1,18 +1,18 @@
 [
   {
-    "Name": "adaptive_block_size",
-    "Title": "Adaptive Block Size: Dynamic Context Window Adjustment for Efficient Training",
-    "Experiment": "Modify the model to dynamically adjust its block size during training, starting with a smaller block size and gradually increasing it. This could potentially lead to faster initial training and better long-range dependency learning.",
-    "Interestingness": 6,
-    "Feasibility": 4,
-    "Novelty": 4
+    "Name": "twist_defect_surface_codes",
+    "Title": "Introducing Twist Defects: New Topological Structures in Rotated Surface Codes",
+    "Experiment": "Investigate the incorporation of twist defects into rotated surface codes to create novel topological structures. Twist defects can host Majorana zero modes and allow for the encoding of logical qubits in a more efficient manner. Develop protocols for creating and manipulating twist defects within the lattice of a rotated surface code. Perform simulations to evaluate the error correction performance and stability of these codes under various noise models, comparing the results with standard rotated surface codes.",
+    "Interestingness": 5,
+    "Feasibility": 3,
+    "Novelty": 6
   },
   {
-    "Name": "layerwise_learning_rates",
-    "Title": "Layer-wise Learning Rate Adaptation: Optimizing Training Dynamics in Transformer Models",
-    "Experiment": "Implement layer-wise learning rates, where each transformer layer has its own learning rate. Modify the configure_optimizers function to assign different learning rates to different layers, with deeper layers having lower learning rates. Compare the training dynamics, convergence speed, and final performance with the baseline model.",
-    "Interestingness": 4,
-    "Feasibility": 6,
-    "Novelty": 2
+    "Name": "symmetry_enhanced_surface_codes",
+    "Title": "Utilizing Novel Symmetries in Rotated Surface Codes for Improved Error Correction",
+    "Experiment": "Investigate the introduction of new symmetry operations in rotated surface codes to enhance their error-correcting capabilities. By identifying additional symmetrical properties within the code lattice, we can redesign the code to be more robust against specific error types. Develop theoretical models incorporating these new symmetries and implement them in simulations to evaluate their impact on logical error rates and decoding efficiency compared to standard rotated surface codes.",
+    "Interestingness": 5,
+    "Feasibility": 4,
+    "Novelty": 5
   }
 ]
