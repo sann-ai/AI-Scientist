@@ -3,6 +3,7 @@ import json
 import numpy as np
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 from qiskit_aer import AerSimulator
+from qiskit.providers.aer import AerProvider
 from qiskit.compiler import transpile
 import matplotlib.pyplot as plt
 
@@ -83,8 +84,11 @@ def run_experiment(d, error_rate, shots):
     # Syndrome measurement
     measure_syndrome(qc, q_data, q_measure_z, q_measure_x, d)
     
+    # シミュレータの設定を変更
+    provider = AerProvider()
+    simulator = provider.get_backend('aer_simulator_statevector_gpu')
+    
     # Run simulation
-    simulator = AerSimulator()
     compiled_circuit = transpile(qc, simulator)
     job = simulator.run(compiled_circuit, shots=shots)
     result = job.result()
@@ -107,8 +111,10 @@ def run_experiment(d, error_rate, shots):
         apply_error(qc, q_data, error_rate)
         measure_syndrome(qc, q_data, q_measure_z, q_measure_x, d)
         
+        # シミュレータの設定を変更
+        simulator = provider.get_backend('aer_simulator_statevector_gpu')
+        
         # Run simulation
-        simulator = AerSimulator()
         compiled_circuit = transpile(qc, simulator)
         job = simulator.run(compiled_circuit, shots=1)
         result = job.result()
