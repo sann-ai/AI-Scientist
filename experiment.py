@@ -206,4 +206,4 @@ if __name__ == "__main__":
     with open(os.path.join(out_dir, "all_results.npy"), "wb") as f:
         np.save(f, all_results)
 
-    print(f"Experiment completed. Results are saved in the {out_dir} directory.")
+    print(f"The experiment has been completed. Results are saved in the {out_dir} directory.")

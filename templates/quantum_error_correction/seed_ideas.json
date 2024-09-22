@@ -1,18 +1,18 @@
 [
   {
-    "Name": "twist_defect_surface_codes",
-    "Title": "Introducing Twist Defects: New Topological Structures in Rotated Surface Codes",
-    "Experiment": "Investigate the incorporation of twist defects into rotated surface codes to create novel topological structures. Twist defects can host Majorana zero modes and allow for the encoding of logical qubits in a more efficient manner. Develop protocols for creating and manipulating twist defects within the lattice of a rotated surface code. Perform simulations to evaluate the error correction performance and stability of these codes under various noise models, comparing the results with standard rotated surface codes.",
-    "Interestingness": 5,
-    "Feasibility": 3,
-    "Novelty": 6
-  },
-  {
     "Name": "symmetry_enhanced_surface_codes",
     "Title": "Utilizing Novel Symmetries in Rotated Surface Codes for Improved Error Correction",
     "Experiment": "Investigate the introduction of new symmetry operations in rotated surface codes to enhance their error-correcting capabilities. By identifying additional symmetrical properties within the code lattice, we can redesign the code to be more robust against specific error types. Develop theoretical models incorporating these new symmetries and implement them in simulations to evaluate their impact on logical error rates and decoding efficiency compared to standard rotated surface codes.",
-    "Interestingness": 5,
-    "Feasibility": 4,
-    "Novelty": 5
+    "Interestingness": 8,
+    "Feasibility": 7,
+    "Novelty": 8
+    },
+  {
+  "Name": "subsystem_rotated_surface_code",
+  "Title": "Subsystem Rotated Surface Codes: Reducing Qubit Overhead through Gauge Fixing",
+  "Experiment": "Develop a subsystem version of the rotated surface code by introducing gauge qubits and converting certain stabilizers into gauge operators. This approach aims to reduce the total number of physical qubits required for the code by allowing for more flexibility in measurement and error correction. Evaluate the performance of the subsystem rotated surface code through simulations, comparing its error correction capabilities and resource requirements to those of the conventional rotated surface code.",
+  "Interestingness": 8,
+  "Feasibility": 5,
+  "Novelty": 6
   }
-]
+  ]
