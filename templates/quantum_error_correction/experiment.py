@@ -3,7 +3,7 @@ import json
 import numpy as np
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 from qiskit_aer import AerSimulator
-from qiskit.providers.aer import AerProvider
+from qiskit_aer import AerProvider
 from qiskit.compiler import transpile
 import matplotlib.pyplot as plt
 

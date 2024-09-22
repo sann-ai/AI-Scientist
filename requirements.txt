@@ -17,5 +17,4 @@ wandb
 tqdm
 # Quantum
 qiskit
-qiskit-aer
-
+qiskit-aer-gpu
