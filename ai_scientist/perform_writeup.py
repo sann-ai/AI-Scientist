@@ -11,7 +11,7 @@ import json
 
 
 # GENERATE LATEX
-def generate_latex(coder, folder_name, pdf_file, timeout=30, num_error_corrections=5):
+def generate_latex(coder, folder_name, pdf_file, timeout=30, num_error_corrections=20):
     folder = osp.abspath(folder_name)
     cwd = osp.join(folder, "latex")  # Fixed potential issue with path
     writeup_file = osp.join(cwd, "template.tex")
