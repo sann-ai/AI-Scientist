@@ -22,6 +22,11 @@ def create_rotated_surface_code(d):
     c = ClassicalRegister(n_measure_z + n_measure_x, 'c')
     
     qc = QuantumCircuit(q_data, q_measure_z, q_measure_x, c)
+    
+    # 論理|0>状態の準備（すべてのデータ量子ビットを|0>に初期化）
+    for qubit in q_data:
+        qc.reset(qubit)
+    
     return qc, q_data, q_measure_z, q_measure_x
 
 def apply_error(qc, q_data, error_rate):
@@ -33,35 +38,55 @@ def apply_error(qc, q_data, error_rate):
             qc.z(qubit)  # Phase flip error
 
 def measure_syndrome(qc, q_data, q_measure_z, q_measure_x, d):
-    # Measure Z syndrome
+    # Z症候群の測定
+    z_index = 0
     for row in range(d-1):
         for col in range(d):
-            if row * d + col < len(q_measure_z):
-                ancilla = q_measure_z[row * d + col]
-                if 2*row+1 < d and 2*col < d:
-                    qc.cx(q_data[(2*row+1)*d + 2*col], ancilla)
-                if 2*row+2 < d and 2*col < d:
-                    qc.cx(q_data[(2*row+2)*d + 2*col], ancilla)
-                if 2*row+1 < d and 2*col+1 < d:
-                    qc.cx(q_data[(2*row+1)*d + 2*col+1], ancilla)
-                if 2*row+2 < d and 2*col+1 < d:
-                    qc.cx(q_data[(2*row+2)*d + 2*col+1], ancilla)
+            if (row + col) % 2 == 1:  # チェッカーボードパターン
+                ancilla = q_measure_z[z_index]
+                z_index += 1
+                # 上の辺
+                if row == 0:
+                    qc.cx(q_data[col], ancilla)
+                else:
+                    qc.cx(q_data[row*d + col], ancilla)
+                    qc.cx(q_data[(row-1)*d + col], ancilla)
+                # 下の辺
+                if row == d-2:
+                    qc.cx(q_data[(d-1)*d + col], ancilla)
+                else:
+                    qc.cx(q_data[(row+1)*d + col], ancilla)
+                    qc.cx(q_data[(row+2)*d + col], ancilla)
 
-    # Measure X syndrome
-    for col in range(d-1):
-        for row in range(d):
-            if col * d + row < len(q_measure_x):
-                ancilla = q_measure_x[col * d + row]
-                if 2*row < d and 2*col+1 < d:
-                    qc.cx(ancilla, q_data[2*row*d + 2*col+1])
-                if 2*row < d and 2*col+2 < d:
-                    qc.cx(ancilla, q_data[2*row*d + 2*col+2])
-                if 2*row+1 < d and 2*col+1 < d:
-                    qc.cx(ancilla, q_data[(2*row+1)*d + 2*col+1])
-                if 2*row+1 < d and 2*col+2 < d:
-                    qc.cx(ancilla, q_data[(2*row+1)*d + 2*col+2])
+    # X症候群の測定
+    x_index = 0
+    for row in range(d):
+        for col in range(d-1):
+            if (row + col) % 2 == 0:  # チェッカーボードパターン
+                ancilla = q_measure_x[x_index]
+                x_index += 1
+                # 左の辺
+                if col == 0:
+                    qc.h(ancilla)
+                    qc.cx(ancilla, q_data[row*d])
+                    qc.h(ancilla)
+                else:
+                    qc.h(ancilla)
+                    qc.cx(ancilla, q_data[row*d + col])
+                    qc.cx(ancilla, q_data[row*d + col - 1])
+                    qc.h(ancilla)
+                # 右の辺
+                if col == d-2:
+                    qc.h(ancilla)
+                    qc.cx(ancilla, q_data[row*d + d - 1])
+                    qc.h(ancilla)
+                else:
+                    qc.h(ancilla)
+                    qc.cx(ancilla, q_data[row*d + col + 1])
+                    qc.cx(ancilla, q_data[row*d + col + 2])
+                    qc.h(ancilla)
 
-    # Measurement
+    # 測定
     qc.measure(q_measure_z, range(len(q_measure_z)))
     qc.measure(q_measure_x, range(len(q_measure_z), len(q_measure_z) + len(q_measure_x)))
 

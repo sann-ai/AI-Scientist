@@ -13,8 +13,8 @@ def create_rotated_surface_code(d):
     d: distance (odd number)
     """
     n_data = d**2
-    n_measure_z = (d**2 - 1) // 2
-    n_measure_x = (d**2 - 1) // 2
+    n_measure_z = ((d-1)**2 + 1) // 2 + (d-1)  # 内部Z + 外部Z
+    n_measure_x = ((d-1)**2 - 1) // 2 + (d-1)  # 内部X + 外部X
     
     q_data = QuantumRegister(n_data, 'data')
     q_measure_z = QuantumRegister(n_measure_z, 'measure_z')
@@ -22,6 +22,11 @@ def create_rotated_surface_code(d):
     c = ClassicalRegister(n_measure_z + n_measure_x, 'c')
     
     qc = QuantumCircuit(q_data, q_measure_z, q_measure_x, c)
+    
+    # 論理|0>状態の準備（すべてのデータ量子ビットを|0>に初期化）
+    for qubit in q_data:
+        qc.reset(qubit)
+    
     return qc, q_data, q_measure_z, q_measure_x
 
 def apply_error(qc, q_data, error_rate):
@@ -33,35 +38,69 @@ def apply_error(qc, q_data, error_rate):
             qc.z(qubit)  # Phase flip error
 
 def measure_syndrome(qc, q_data, q_measure_z, q_measure_x, d):
-    # Measure Z syndrome
+    # Z症候群の測定
+    z_index = 0
+    
+    # 内部Z症候群
     for row in range(d-1):
-        for col in range(d):
-            if row * d + col < len(q_measure_z):
-                ancilla = q_measure_z[row * d + col]
-                if 2*row+1 < d and 2*col < d:
-                    qc.cx(q_data[(2*row+1)*d + 2*col], ancilla)
-                if 2*row+2 < d and 2*col < d:
-                    qc.cx(q_data[(2*row+2)*d + 2*col], ancilla)
-                if 2*row+1 < d and 2*col+1 < d:
-                    qc.cx(q_data[(2*row+1)*d + 2*col+1], ancilla)
-                if 2*row+2 < d and 2*col+1 < d:
-                    qc.cx(q_data[(2*row+2)*d + 2*col+1], ancilla)
+        for col in range(d-1):
+            if (row + col) % 2 == 0:  # チェッカーボードパターン
+                ancilla = q_measure_z[z_index]
+                z_index += 1
+                qc.cx(q_data[row*d + col], ancilla)
+                qc.cx(q_data[row*d + col + 1], ancilla)
+                qc.cx(q_data[(row+1)*d + col], ancilla)
+                qc.cx(q_data[(row+1)*d + col + 1], ancilla)
+    
+    # 外部Z症候群（左右の辺）
+    for row in range(d-1):
+        if row % 2 == 1:  # 左の辺
+            ancilla = q_measure_z[z_index]
+            z_index += 1
+            qc.cx(q_data[row*d], ancilla)
+            qc.cx(q_data[(row+1)*d], ancilla)
+        
+        if row % 2 == 0:  # 右の辺
+            ancilla = q_measure_z[z_index]
+            z_index += 1
+            qc.cx(q_data[row*d + d - 1], ancilla)
+            qc.cx(q_data[(row+1)*d + d - 1], ancilla)
 
-    # Measure X syndrome
+    # X症候群の測定
+    x_index = 0
+    
+    # 内部X症候群
+    for row in range(d-1):
+        for col in range(d-1):
+            if (row + col) % 2 == 1:  # チェッカーボードパターン
+                ancilla = q_measure_x[x_index]
+                x_index += 1
+                qc.h(ancilla)
+                qc.cx(ancilla, q_data[row*d + col])
+                qc.cx(ancilla, q_data[row*d + col + 1])
+                qc.cx(ancilla, q_data[(row+1)*d + col])
+                qc.cx(ancilla, q_data[(row+1)*d + col + 1])
+                qc.h(ancilla)
+    
+    # 外部X症候群（上下の辺）
     for col in range(d-1):
-        for row in range(d):
-            if col * d + row < len(q_measure_x):
-                ancilla = q_measure_x[col * d + row]
-                if 2*row < d and 2*col+1 < d:
-                    qc.cx(ancilla, q_data[2*row*d + 2*col+1])
-                if 2*row < d and 2*col+2 < d:
-                    qc.cx(ancilla, q_data[2*row*d + 2*col+2])
-                if 2*row+1 < d and 2*col+1 < d:
-                    qc.cx(ancilla, q_data[(2*row+1)*d + 2*col+1])
-                if 2*row+1 < d and 2*col+2 < d:
-                    qc.cx(ancilla, q_data[(2*row+1)*d + 2*col+2])
+        # 上の辺
+        ancilla = q_measure_x[x_index]
+        x_index += 1
+        qc.h(ancilla)
+        qc.cx(ancilla, q_data[col])
+        qc.cx(ancilla, q_data[col + d])
+        qc.h(ancilla)
+        
+        # 下の辺
+        ancilla = q_measure_x[x_index]
+        x_index += 1
+        qc.h(ancilla)
+        qc.cx(ancilla, q_data[(d-1)*d + col])
+        qc.cx(ancilla, q_data[(d-1)*d + col + d])
+        qc.h(ancilla)
 
-    # Measurement
+    # 測定
     qc.measure(q_measure_z, range(len(q_measure_z)))
     qc.measure(q_measure_x, range(len(q_measure_z), len(q_measure_z) + len(q_measure_x)))
 
@@ -69,8 +108,8 @@ def run_experiment(d, error_rate, shots):
     print(f"d: {d}")
     print(f"q_data length: {d*d}")
     q_data = QuantumRegister(d*d, 'data')
-    q_measure_z = QuantumRegister((d**2 - 1) // 2, 'measure_z')
-    q_measure_x = QuantumRegister((d**2 - 1) // 2, 'measure_x')
+    q_measure_z = QuantumRegister(((d-1)**2 + 1) // 2 + (d-1), 'measure_z')
+    q_measure_x = QuantumRegister(((d-1)**2 - 1) // 2 + (d-1), 'measure_x')
     print(f"q_measure_z length: {len(q_measure_z)}")
     print(f"q_measure_x length: {len(q_measure_x)}")
     
