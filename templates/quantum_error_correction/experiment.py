@@ -14,7 +14,7 @@ def create_rotated_surface_code(d):
     """
     n_data = d**2
     n_measure_z = ((d-1)**2 + 1) // 2 + (d-1)  # 内部Z + 外部Z
-    n_measure_x = ((d-1)**2 - 1) // 2 + (d-1)  # 内部X + 外部X
+    n_measure_x = ((d-1)**2 + 1) // 2 + (d-1)  # 内部X + 外部X（修正）
     
     q_data = QuantumRegister(n_data, 'data')
     q_measure_z = QuantumRegister(n_measure_z, 'measure_z')
@@ -84,21 +84,21 @@ def measure_syndrome(qc, q_data, q_measure_z, q_measure_x, d):
     
     # 外部X症候群（上下の辺）
     for col in range(d-1):
-        # 上の辺
-        ancilla = q_measure_x[x_index]
-        x_index += 1
-        qc.h(ancilla)
-        qc.cx(ancilla, q_data[col])
-        qc.cx(ancilla, q_data[col + d])
-        qc.h(ancilla)
+        if col % 2 == 0:  # 上の辺
+            ancilla = q_measure_x[x_index]
+            x_index += 1
+            qc.h(ancilla)
+            qc.cx(ancilla, q_data[col])
+            qc.cx(ancilla, q_data[col + 1])
+            qc.h(ancilla)
         
-        # 下の辺
-        ancilla = q_measure_x[x_index]
-        x_index += 1
-        qc.h(ancilla)
-        qc.cx(ancilla, q_data[(d-1)*d + col])
-        qc.cx(ancilla, q_data[(d-1)*d + col + d])
-        qc.h(ancilla)
+        if col % 2 == 1:  # 下の辺
+            ancilla = q_measure_x[x_index]
+            x_index += 1
+            qc.h(ancilla)
+            qc.cx(ancilla, q_data[(d-1)*d + col])
+            qc.cx(ancilla, q_data[(d-1)*d + col + 1])  # ここを修正
+            qc.h(ancilla)
 
     # 測定
     qc.measure(q_measure_z, range(len(q_measure_z)))
@@ -109,7 +109,7 @@ def run_experiment(d, error_rate, shots):
     print(f"q_data length: {d*d}")
     q_data = QuantumRegister(d*d, 'data')
     q_measure_z = QuantumRegister(((d-1)**2 + 1) // 2 + (d-1), 'measure_z')
-    q_measure_x = QuantumRegister(((d-1)**2 - 1) // 2 + (d-1), 'measure_x')
+    q_measure_x = QuantumRegister(((d-1)**2 + 1) // 2 + (d-1), 'measure_x')  # 修正
     print(f"q_measure_z length: {len(q_measure_z)}")
     print(f"q_measure_x length: {len(q_measure_x)}")
     
@@ -186,7 +186,7 @@ def plot_error_correction(d, shots, error_rates, out_dir):
 def train(dataset="rotated_surface_code", out_dir="run_0", seed_offset=0):
     d = 3  # Distance (odd number)
     shots = 1000  # Number of executions
-    error_rates = np.linspace(0.01, 0.5, 5)  # Range of error rates
+    error_rates = np.linspace(0.01, 0.1, 5)  # Range of error rates
     
     detection_rates = plot_error_correction(d, shots, error_rates, out_dir)
     
