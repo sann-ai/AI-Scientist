@@ -3,7 +3,7 @@ import sys
 
 def run_lean_code():
     try:
-        result = subprocess.run(['lean', 'Main.lean'], capture_output=True, text=True, check=True)
+        result = subprocess.run(['lean', 'templates/math/Main.lean'], capture_output=True, text=True, check=True)
         print("Lean output:")
         print(result.stdout)
     except subprocess.CalledProcessError as e:
