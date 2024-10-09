@@ -751,3 +751,6 @@ if __name__ == "__main__":
 
     with open(os.path.join(out_dir, "all_results.npy"), "wb") as f:
         np.save(f, all_results)
+
+    # Run Main.lean after the training is complete
+    run_main_lean()
