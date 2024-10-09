@@ -11,6 +11,42 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 import argparse
+import subprocess
+import sys
+
+def run_main_lean():
+    """
+    Run Main.lean as a subprocess and handle its output.
+    """
+    try:
+        # Run Main.lean using the lean command
+        process = subprocess.Popen(['lean', 'Main.lean'], 
+                                   stdout=subprocess.PIPE, 
+                                   stderr=subprocess.PIPE, 
+                                   text=True)
+        
+        # Capture output in real-time
+        while True:
+            output = process.stdout.readline()
+            if output == '' and process.poll() is not None:
+                break
+            if output:
+                print(output.strip())
+        
+        # Capture any errors
+        stderr = process.stderr.read()
+        if stderr:
+            print("Errors:", stderr, file=sys.stderr)
+        
+        # Get the return code
+        return_code = process.poll()
+        if return_code != 0:
+            print(f"Main.lean exited with return code {return_code}", file=sys.stderr)
+        else:
+            print("Main.lean executed successfully")
+        
+    except Exception as e:
+        print(f"An error occurred: {e}", file=sys.stderr)
 
 
 # --- BEGIN model.py ---
