@@ -3,13 +3,13 @@ import sys
 
 def run_lean_code():
     try:
-        result = subprocess.run(['lean', 'templates/math/Main.lean'], capture_output=True, text=True, check=True)
+        result = subprocess.run(['lean', 'templates/math/Main.lean'], capture_output=True, text=True, check=False)
         print("Lean output:")
         print(result.stdout)
-    except subprocess.CalledProcessError as e:
-        print("Error running Lean code:", e)
-        print("Lean error output:")
-        print(e.stderr)
+        if result.returncode != 0:
+            print("Error running Lean code. Exit code:", result.returncode)
+            print("Lean error output:")
+            print(result.stderr)
     except FileNotFoundError:
         print("Error: Lean executable not found. Make sure Lean is installed and in your PATH.")
 
