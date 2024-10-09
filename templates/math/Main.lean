@@ -1,13 +1,12 @@
-import Mathlib.Tactic
-import Mathlib.Data.Real.Basic
-
-theorem example_theorem : ∀ (x y : ℝ), x + y = y + x := by
-  intros x y
-  exact add_comm x y
+-- Basic Lean theorem without using Mathlib
+theorem add_comm (a b : Nat) : a + b = b + a := by
+  induction a with
+  | zero => simp
+  | succ n ih => simp [ih]
 
 #eval "Hello from Lean!"
 
-def factorial : ℕ → ℕ
+def factorial : Nat → Nat
   | 0 => 1
   | n + 1 => (n + 1) * factorial n
 
